@@ -1,18 +1,26 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
+# Результирующие файлы сборки
+bin/
+obj/
 
-# Other files and folders
-.settings/
+# Файлы Rider
+.idea/
+*.suo
+*.user
+*.userprefs
+*.layout
+*.csproj.user
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+# Файлы Visual Studio
+.vs/
+*.cache
+*.log
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+
+# Другие временные файлы
+_ReSharper.*/
+*.VC.db
+*.VC.opendb

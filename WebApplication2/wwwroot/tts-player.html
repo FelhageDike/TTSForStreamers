@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TTS Audio Player</title>
+</head>
+<body>
+<h1 style="display: none">TTS Audio Player</h1>
+<button style="display: none" id="playButton">Play Latest Audio</button>
+<audio style="display: none !important;" id="audioPlayer" controls style="display:none;"></audio>
+  
+
+
+<script>
+    
+    
+    
+    const audioPlayer = document.getElementById('audioPlayer');
+    const playButton = document.getElementById('playButton');
+
+    let lastAudioBase64 = ''; // Для отслеживания последнего аудио
+
+    async function fetchLatestAudio() {
+        try {
+            const response = await fetch('/tts/get-latest-audio'); // Запрос к вашему API
+            if (!response.ok) {
+                throw new Error('Failed to fetch audio');
+            }
+            const data = await response.json();
+            const base64Audio = data.audio;
+
+            // Если аудио изменилось, воспроизводим его
+            if (base64Audio && base64Audio !== lastAudioBase64) {
+                lastAudioBase64 = base64Audio; // Обновляем последнее аудио
+                const audioUrl = `data:audio/wav;base64,${base64Audio}`;
+                audioPlayer.src = audioUrl;
+                audioPlayer.style.display = 'none';
+                audioPlayer.play();
+            }
+        } catch (error) {
+            console.error('Error fetching audio:', error);
+        }
+    }
+
+    // Кнопка для воспроизведения последнего аудио
+    playButton.addEventListener('click', fetchLatestAudio);
+
+    // Автоматическая загрузка аудио каждые 2 секунды
+    setInterval(fetchLatestAudio, 2000); // Проверяем каждые 2 секунды
+
+    // Первый запрос при загрузке страницы
+    window.onload = fetchLatestAudio;
+</script>
+</body>
+</html>
